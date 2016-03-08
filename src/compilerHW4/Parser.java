@@ -19,22 +19,50 @@ public class Parser
 	private List<Token> tokens;
 	
 	public static void main(String[] args) throws Exception{
-		StringBuilder sb;
-		sb = new StringBuilder();
-		sb.append("alpha						");
-		sb.append("	declare abacus x			");
-		sb.append("								");
-		sb.append("	under_contract( x < 10 ) 	");
-		sb.append("		x peer x loot 1			");
-		sb.append("		print(x)				");
-		sb.append("								");
-		sb.append(" end_contract 				");
-		sb.append("                             ");
-		sb.append("                             ");
-		sb.append("                             ");
-		sb.append("omega						");
+		StringBuilder sbExample1, sbExample2, sbExample3;
+		sbExample1 = new StringBuilder();
+		sbExample1.append("alpha						");
+		sbExample1.append("	declare abacus x			");
+		sbExample1.append("								");
+		sbExample1.append("	under_contract( x < 10 ) 	");
+		sbExample1.append("		x peer x loot 1			");
+		sbExample1.append("		print(x)				");
+		sbExample1.append("								");
+		sbExample1.append(" end_contract 				");
+		sbExample1.append("                             ");
+		sbExample1.append("                             ");
+		sbExample1.append("                             ");
+		sbExample1.append("omega						");
 		
-		Parser parser = new Parser(sb.toString());
+		sbExample2 = new StringBuilder();
+		sbExample2.append("declare abacus x            ");
+		sbExample2.append("declare abacus y            ");
+		sbExample2.append("declare dichotomy isEvenX   ");
+		sbExample2.append("declare dichotomy isEvenY   ");
+        sbExample2.append("                            ");
+		sbExample2.append("x peer 6                    ");
+		sbExample2.append("y peer 1                    ");
+		sbExample2.append("isEvenX peer nay            ");
+		sbExample2.append("isEvenY peer nay            ");
+        sbExample2.append("                            ");
+		sbExample2.append("consider(x nerf 2 = 0)      ");
+		sbExample2.append("	isEvenX peer aye           ");
+		sbExample2.append("end_consider                ");
+        sbExample2.append("                            ");
+		sbExample2.append("consider(Y nerf 2 = 0)      ");
+		sbExample2.append("	isEvenY peer aye           ");
+		sbExample2.append("end_consider                ");
+        sbExample2.append("                            ");
+		sbExample2.append("announce(isEvenX)           ");
+		
+		sbExample3 = new StringBuilder();
+		sbExample3.append("x peer 10		");
+		sbExample3.append("declare abacus x	");
+		sbExample3.append("consider(x > 1)	");
+		sbExample3.append("		announce(x) ");
+		sbExample3.append("end_consider		");
+		
+		Parser parser = new Parser(sbExample1.toString());
 		parser.Program();
 	}
 	
@@ -355,6 +383,8 @@ public class Parser
 	{
 		if(peekNextToken().equals(input)==false)
 			throwError("Invalid input: " + input);
+		else
+			System.out.println("Ate token: " + input);
 		
 		//get next input
 		if(!tokens.isEmpty())
