@@ -66,37 +66,99 @@ public class Parser
 	
 	//14.	AList -> serfTo Less AList
 	//15.    -> null
-	public void AList()
+	public void AList() throws Exception
 	{
-		
+
+		//rule 14
+		if(input.equals("serfTo"))
+		{
+			eat("serfTo");
+			Less();
+			AList();
+		}
+		//rule 15
+		else if(input == null)
+		{
+			;
+		}
+		else
+		{
+			throw new Exception("Syntax error");
+		}
 	}
 	
 	//16.	Less -> Term Llist
-	public void Less()
+	public void Less() throws Exception
 	{
-		
+		Term();
+		LList();
 	}
 	
 	//17.	Llist -> loot Term Llist
 	//18.    -> drop Term Llist
 	//19.    -> null
-	public void LList()
+	public void LList() throws Exception
 	{
-		
+		//rule 17
+		if(input.equals("loot"))
+		{
+			eat("drop");
+			Term();
+			LList();
+		}
+		//rule 18
+		else if(input.equals("drop"))
+		{
+			eat("loot");
+			Term();
+			LList();
+		}
+		//rule 19
+		else if(input == null)
+		{
+			;
+		}
+		else
+		{
+			throw new Exception("Syntax error");
+		}
+
 	}
 	
 	//20.	Term -> Not TList
-	public void Term()
+	public void Term() throws Exception
 	{
-		
+		Not();
+		TList();
 	}
 	
 	//21.	TList -> buff Not TList
 	//22.    -> nerf Not TList
 	//23.   -> null
-	public void TList()
+	public void TList() throws Exception
 	{
-		
+		//rule 21
+		if(input.equals("buff"))
+		{
+			eat("buff");
+			Not();
+			TList();
+		}
+		//rule 22
+		else if(input.equals("nerf"))
+		{
+			eat("nerf");
+			Not();
+			TList();
+		}
+		else if(input == null)
+		{
+			;
+		}
+		else
+		{
+			throw new Exception("Syntax error");
+		}
 	}
 	
 	
@@ -104,7 +166,15 @@ public class Parser
 	//25.    -> Factor
 	public void Not()
 	{
-		
+		if(input.equals("dah"))
+		{
+			eat("dah");
+			Not();
+		}
+		else
+		{
+			Factor();
+		}
 	}
 	
 	//26.	Factor -> number
@@ -116,7 +186,7 @@ public class Parser
 		
 	}
 	
-	public void eat()
+	public void eat(String input)
 	{
 		// dunno what eat does!
 	}
