@@ -4,6 +4,12 @@ import java.util.List;
 import compilerHW4.node.*;
 
 /**
+ * 
+ * The purpose of this class is parse an LL(1) test string 
+ * and validate whether it is part of the language defined
+ * by the grammar.
+ * 
+ * 
  * @author Cory Finch
  * @author John Gaffney
  * @author Donald Aufiero
