@@ -1,7 +1,5 @@
 package compilerHW4;
 
-import jdk.nashorn.internal.parser.TokenType;
-
 /**
  * @author Cory Finch
  * @author John Gaffney
