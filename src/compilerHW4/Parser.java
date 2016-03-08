@@ -72,7 +72,7 @@ public class Parser
 		//rule 14
 		if(input.equals("serfTo"))
 		{
-			eat("serfTo");
+			eat(input);
 			Less();
 			AList();
 		}
@@ -102,14 +102,14 @@ public class Parser
 		//rule 17
 		if(input.equals("loot"))
 		{
-			eat("drop");
+			eat(input);
 			Term();
 			LList();
 		}
 		//rule 18
 		else if(input.equals("drop"))
 		{
-			eat("loot");
+			eat(input);
 			Term();
 			LList();
 		}
@@ -140,14 +140,14 @@ public class Parser
 		//rule 21
 		if(input.equals("buff"))
 		{
-			eat("buff");
+			eat(input);
 			Not();
 			TList();
 		}
 		//rule 22
 		else if(input.equals("nerf"))
 		{
-			eat("nerf");
+			eat(input);
 			Not();
 			TList();
 		}
@@ -168,7 +168,7 @@ public class Parser
 	{
 		if(input.equals("dah"))
 		{
-			eat("dah");
+			eat(input);
 			Not();
 		}
 		else
@@ -183,13 +183,9 @@ public class Parser
 	//29.    -> id
 	public void Factor()
 	{
-		if(input.equals("aye") || input.equals("nay"))
+		if(input.equals("aye") || input.equals("nay") || input.equals(TokenType.ID) || input.equals(TokenType.NUMBER)
 		{
 			eat(input);
-		}
-		else if()
-		{
-			
 		}
 		else
 		{
