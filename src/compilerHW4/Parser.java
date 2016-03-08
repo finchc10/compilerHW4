@@ -1,5 +1,7 @@
 package compilerHW4;
 
+import jdk.nashorn.internal.parser.TokenType;
+
 /**
  * @author Cory Finch
  * @author John Gaffney
@@ -153,9 +155,9 @@ public class Parser
 			AList();
 		}
 		//rule 16
-		else if(input == null)
+		else if(input == null || input.equals("fus") || input.equals(")") || input.equals("omega") || input.equals("end_contract") || input.equals("end_consider"))
 		{
-			;
+			eat(input);
 		}
 		else
 		{
@@ -163,11 +165,19 @@ public class Parser
 		}
 	}
 	
-	//17.	Less -> Term Llist
+	//17.	Less -> Term LList
 	public void Less() throws Exception
 	{
-		Term();
-		LList();
+		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || input.equals(TokenType.NUMBER) ||
+				input.equals("aye") || input.equals("nay") || input.equals(TokenType.VAR) || input.equals("loot") || input.equals("drop"))
+		{
+			Term();
+			LList();
+		}
+		else
+		{
+			throw new Exception("Syntax error");
+		}
 	}
 	
 	//18.	Llist -> loot Term Llist
@@ -190,9 +200,10 @@ public class Parser
 			LList();
 		}
 		//rule 20
-		else if(input == null)
+		else if(input == null || input.equals("serfTo") || input.equals("fus") || input.equals(")") || input.equals("omega") || input.equals("end_contract") ||
+				input.equals("end_consider"))
 		{
-			;
+			eat(input);
 		}
 		else
 		{
@@ -201,11 +212,19 @@ public class Parser
 
 	}
 	
-	//21.	Term -> Not TList
+	//21.	Term -> Not TList {‘buff’,’nerf’,’dah’,number,’aye’,nay’,identifier}
 	public void Term() throws Exception
 	{
-		Not();
-		TList();
+		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || input.equals(TokenType.NUMBER) || input.equal("aye") || input.equals("nay") ||
+				input.equals(TokenType.IDENT))
+		{
+			Not();
+			TList();
+		}
+		else
+		{
+			throw new Exception("Syntax error");
+		}
 	}
 	
 	//22.	TList -> buff Not TList
@@ -213,23 +232,18 @@ public class Parser
 	//24.   -> null
 	public void TList() throws Exception
 	{
-		//rule 22
-		if(input.equals("buff"))
+		//rule 22 && rule 23
+		if(input.equals("buff") || input.equals("nerf"))
 		{
 			eat(input);
 			Not();
 			TList();
 		}
-		//rule 23
-		else if(input.equals("nerf"))
+		//rule 24
+		else if(input == null || input.equals("loot") || input.equals("drop") || input.equals("serfTo") || input.equals("fus") || input.equals(")") ||
+				input.equals("omega") || input.equals("end_contract") || input.equals("end_consider"))
 		{
 			eat(input);
-			Not();
-			TList();
-		}
-		else if(input == null)
-		{
-			;
 		}
 		else
 		{
@@ -240,16 +254,22 @@ public class Parser
 	
 	//25.	Not -> dah Not 
 	//26.    -> Factor
-	public void Not()
+	public void Not() throws Exception
 	{
+		//rule 25
 		if(input.equals("dah"))
 		{
 			eat(input);
 			Not();
 		}
-		else
+		//rule 26 {number, ‘aye’, ‘nay’, identifer}
+		else if(input.equals(TokenType.NUMBER) || input.equals("aye") || input.equals("nay") || input.equals(TokenType.ID))
 		{
 			Factor();
+		}
+		else
+		{
+			throw new Exception("Syntax error");
 		}
 	}
 	
