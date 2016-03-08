@@ -10,7 +10,7 @@ public class Parser
 {
 	String input = "";
 	
-	//	Program -> alpha VarDecl* Stm* omega
+	//1.	Program -> alpha VarDecl* Stm* omega
 	public void Program()
 	{
 		
@@ -22,95 +22,95 @@ public class Parser
 		
 	}
 	
-	//	Type -> abacus
-	//    -> tome
-	//    -> dichotomy
+	//2.	Type -> abacus
+	//3.    -> tome
+	//4.    -> dichotomy
 	public void Type()
 	{
 		
 	}
 	
-	//	Stm -> under_contract(Exp) Stmt* end_contract
-	//    -> consider(Exp) Stm* end_consider
-	//    -> print(Exp)
-	//    -> id Assign
+	//5.	Stm -> under_contract(Exp) Stmt* end_contract
+	//6.   -> consider(Exp) Stm* end_consider
+	//7.    -> print(Exp)
+	//8.    -> id Assign
 	public void Stm()
 	{
 		
 	}
 	
-	//	Assign -> peer Exp
+	//9.	Assign -> peer Exp
 	public void Assign()
 	{
 		
 	}
 	
-	//	Exp -> And Elist
+	//10.	Exp -> And Elist
 	public void Exp()
 	{
 		
 	}
 	
-	//	Elist -> fus And Elist
-	//    -> null
+	//11.	Elist -> fus And Elist
+	//12.    -> null
 	public void EList()
 	{
 		
 	}
 	
-	//	And -> Less Alist
+	//13.	And -> Less Alist
 	public void And()
 	{
 		
 	}
 	
-	//	AList -> serfTo Less AList
-	//    -> null
+	//14.	AList -> serfTo Less AList
+	//15.    -> null
 	public void AList()
 	{
 		
 	}
 	
-	//	Less -> Term Llist
+	//16.	Less -> Term Llist
 	public void Less()
 	{
 		
 	}
 	
-	//	Llist -> loot Term Llist
-	//    -> drop Term Llist
-	//    -> null
+	//17.	Llist -> loot Term Llist
+	//18.    -> drop Term Llist
+	//19.    -> null
 	public void LList()
 	{
 		
 	}
 	
-	//	Term -> Not TList
+	//20.	Term -> Not TList
 	public void Term()
 	{
 		
 	}
 	
-	//	TList -> buff Not TList
-	//    -> nerf Not TList
-	//   -> null
+	//21.	TList -> buff Not TList
+	//22.    -> nerf Not TList
+	//23.   -> null
 	public void TList()
 	{
 		
 	}
 	
 	
-	//	Not -> dah Not 
-	//    -> Factor
+	//24.	Not -> dah Not 
+	//25.    -> Factor
 	public void Not()
 	{
 		
 	}
 	
-	//	Factor -> number
-	//    -> aye
-	//    -> nay
-	//    -> id
+	//26.	Factor -> number
+	//27.    -> aye
+	//28.    -> nay
+	//29.    -> id
 	public void Factor()
 	{
 		
