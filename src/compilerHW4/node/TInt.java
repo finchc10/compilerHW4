@@ -2,7 +2,7 @@
 
 package compilerHW4.node;
 
-import compilerHW4.analysis.Analysis;
+import compilerHW4.analysis.*;
 
 @SuppressWarnings("nls")
 public final class TInt extends Token

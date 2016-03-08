@@ -1,0 +1,55 @@
+Package lexing;
+
+Helpers
+  num = ['0'..'9']+ ;
+  alpha = [['a'..'z'] + ['A'..'Z']];
+  non_star = [[0..0xffff] - '*'] ;
+  
+
+States
+  def, comment ;
+
+Tokens
+  {def -> comment} 	begin_comment = '/*' ;
+  {comment}		in_comment = non_star* ;
+  {comment}		star = '*' ; 
+  {comment -> def} 	end_comment = non_star* '*/' ;
+ 
+  //key words
+  begin = 'alpha';
+  omega = 'omega';
+  int = 'abacus';
+  string = 'tome';
+  boolean = 'dichotomy';
+  declare = 'declare'; //start of type declarion
+  print = 'announce'; 
+  and = 'fus';
+  or = 'ro';
+  not = 'dah';
+  if  = 'consider' ;
+  fi  = 'end_consider'; //end if
+  while = 'under_contract';
+  wend = 'end_contract'; //end while
+  plus = 'loot';
+  minus = 'drop';
+  multiply = 'buff';
+  divide = 'nerf';
+  lessthan = 'serfTo';
+  greaterthan = 'lordTo';
+  lparen = '(';
+  rparen = ')';
+  true = 'aye';
+  false = 'nay';
+  increment = 'levelUp'; //++
+  decrement = 'levelDown'; //--
+  assign    = 'peer' ;			// must be prior to rel_op; //=
+  identifier = alpha (alpha | num)* ;   // This must come after keywords.
+  number = num  '.'? num* ;
+  space     = ' ' | 9 | 10 | 13 ;   // space, tab, newline
+  unknown   = [0..0xffff];		// keep this last
+
+Ignored Tokens
+  space, unknown, begin_comment, in_comment, star, end_comment ;
+
+
+		

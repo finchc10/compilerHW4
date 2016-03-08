@@ -112,9 +112,9 @@ public class Parser
 	{
 		if(peekNextToken().equals("TWhile")){//rule 5
 			eat("TWhile");
-			eat("LParen");
+			eat("TLparen");
 			Exp();
-			eat("RParen");
+			eat("TRparen");
 			while(peekNextToken().equals("TWhile") || peekNextToken().equals("TIf") || peekNextToken().equals("TPrint") || peekNextToken().equals("TIdentifier")){
 				Stm();
 			}
@@ -122,9 +122,9 @@ public class Parser
 		}
 		else if(input.equals("TIf")){//rule 6
 			eat("TIf");
-			eat("LParen");
+			eat("TLparen");
 			Exp();
-			eat("RParen");
+			eat("TRparen");
 			while(peekNextToken().equals("TWhile") || peekNextToken().equals("TIf") || peekNextToken().equals("TPrint") || peekNextToken().equals("TIdentifier")){
 				Stm();
 			}
@@ -132,9 +132,9 @@ public class Parser
 		}
 		else if(peekNextToken().equals("TPrint")){// rule 7
 			eat("TPrint");
-			eat("LParen");
+			eat("TLparen");
 			Exp();
-			eat("RParen");
+			eat("TRparen");
 		}
 		else if(peekNextToken().equals("TIdentifier")){// rule 8
 			eat("TIdentifier");
