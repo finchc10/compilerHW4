@@ -184,6 +184,26 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseTLparen(TLparen node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTRparen(TRparen node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTTrue(TTrue node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTFalse(TFalse node)
+    {
+        defaultCase(node);
+    }
+
     public void caseTIncrement(TIncrement node)
     {
         defaultCase(node);

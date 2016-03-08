@@ -35,6 +35,10 @@ public interface Analysis extends Switch
     void caseTDivide(TDivide node);
     void caseTLessthan(TLessthan node);
     void caseTGreaterthan(TGreaterthan node);
+    void caseTLparen(TLparen node);
+    void caseTRparen(TRparen node);
+    void caseTTrue(TTrue node);
+    void caseTFalse(TFalse node);
     void caseTIncrement(TIncrement node);
     void caseTDecrement(TDecrement node);
     void caseTAssign(TAssign node);

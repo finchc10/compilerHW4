@@ -1,15 +1,6 @@
 package compilerHW4;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PushbackReader;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
-
-import compilerHW4.lexer.Lexer;
 import compilerHW4.node.*;
 
 /**
@@ -77,6 +68,7 @@ public class Parser
 				Stm();
 			}
 			eat("TEnd");
+			System.out.println("Program Success!");
 		}
 		else
 			throwError("Missing alpha at the start of the program");
@@ -118,31 +110,34 @@ public class Parser
 	//9.    	-> id Assign
 	public void Stm() throws Exception
 	{
-		if(input.equals("under_contract")){//rule 5
-			eat("under_contract");
-			eat("(");
+		if(peekNextToken().equals("TWhile")){//rule 5
+			eat("TWhile");
+			eat("LParen");
 			Exp();
-			eat(")");
-			while(input.equals("under_contract") || input.equals("consider") || input.equals("print") || input.equals("identifier")){
+			eat("RParen");
+			while(peekNextToken().equals("TWhile") || peekNextToken().equals("TIf") || peekNextToken().equals("TPrint") || peekNextToken().equals("TIdentifier")){
 				Stm();
 			}
-			eat("end_contract");
+			eat("TWend");
 		}
-		else if(input.equals("consider")){//rule 6
-			eat("consider");
-			eat("(");
+		else if(input.equals("TIf")){//rule 6
+			eat("TIf");
+			eat("LParen");
 			Exp();
-			eat(")");
-			eat("end_consider");
+			eat("RParen");
+			while(peekNextToken().equals("TWhile") || peekNextToken().equals("TIf") || peekNextToken().equals("TPrint") || peekNextToken().equals("TIdentifier")){
+				Stm();
+			}
+			eat("TFi");
 		}
-		else if(input.equals("print")){// rule 7
-			eat("print");
-			eat("(");
+		else if(peekNextToken().equals("TPrint")){// rule 7
+			eat("TPrint");
+			eat("LParen");
 			Exp();
-			eat(")");
+			eat("RParen");
 		}
-		else if(input.equals("identifier")){// rule 8
-			eat("identifier");
+		else if(peekNextToken().equals("TIdentifier")){// rule 8
+			eat("TIdentifier");
 			Assign();
 		}
 		else
@@ -152,8 +147,8 @@ public class Parser
 	//10.	Assign -> peer Exp
 	public void Assign() throws Exception
 	{
-		if(input.equals("peer")){// rule 9.
-			eat("peer");
+		if(peekNextToken().equals("TAssign")){// rule 9.
+			eat("TAssign");
 			Exp();
 		}
 		else
@@ -163,43 +158,43 @@ public class Parser
 	//11.	Exp -> And Elist
 	public void Exp() throws Exception
 	{
-		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || 
-				input.equals("number") || input.equals("aye") || input.equals("nay") ||
-				input.equals("identifier") || input.equals("loot") || input.equals("drop")){// rule 10
+		if(peekNextToken().equals("TMultiply") || peekNextToken().equals("TDivide") || peekNextToken().equals("TNot") || 
+				peekNextToken().equals("TNumber") || peekNextToken().equals("TTrue") || peekNextToken().equals("TFalse") ||
+				peekNextToken().equals("TIdentifier") || peekNextToken().equals("TAdd") || peekNextToken().equals("TMinus")){// rule 10
 			And();
 			EList();
 		}
 		else
-			throwError("invalid expression for token: " + input);
+			throwError("invalid expression for token: " + peekNextToken());
 	}
 	
 	//12.	Elist -> fus And Elist
 	//13.    -> null
 	public void EList() throws Exception
 	{
-		if(input.equals("fus")){// rule 12
-			eat("fus");
+		if(peekNextToken().equals("TAnd")){// rule 12
+			eat("TAnd");
 			And();
 			EList();
 		}
-		else if(input.equals(")") || input.equals("omega") || input.equals("end_contrat") || input.equals("end_consider")){// rule 13
+		else if(peekNextToken().equals("TRparen") || peekNextToken().equals("TEnd") || peekNextToken().equals("TWend") || peekNextToken().equals("TFi")){// rule 13
 			;
 		}
 		else
-			throwError("invalid Elist for token:" + input);
+			throwError("invalid Elist for token:" + peekNextToken());
 	}
 	
 	//14.	And -> Less Alist
 	public void And() throws Exception
 	{
-		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || 
-				input.equals("number") || input.equals("aye") || input.equals("nay") ||
-				input.equals("identifier") || input.equals("loot") || input.equals("drop")){// rule 14
+		if(peekNextToken().equals("TMultiply") || peekNextToken().equals("TDivide") || peekNextToken().equals("TNot") || 
+				peekNextToken().equals("TNumber") || peekNextToken().equals("TTrue") || peekNextToken().equals("TFalse") ||
+				peekNextToken().equals("TIdentifier") || peekNextToken().equals("TAdd") || peekNextToken().equals("TDrop")){// rule 14
 			Less();
 			AList();
 		}
 		else
-			throwError("invalid And for token: " + input);
+			throwError("invalid And for token: " + peekNextToken());
 	}
 	
 	//15.	AList -> serfTo Less AList
