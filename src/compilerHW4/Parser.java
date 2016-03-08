@@ -1,82 +1,158 @@
+package compilerHW4;
+
 /**
  * @author Cory Finch
  * @author John Gaffney
  * @author Donald Aufiero
  */
 
-package compilerHW4;
+
 
 public class Parser
 {
 	String input = "";
 	
 	//1.	Program -> alpha VarDecl* Stm* omega
-	public void Program()
+	public void Program() throws Exception
 	{
-		
+		if(input.equals("alpha")){
+			eat("alpha");
+			while(input.equals("abacus") || input.equals("tome") || input.equals("dichotomy")){
+				VarDecl();
+			}
+			while(input.equals("under_contract") || input.equals("consider") || input.equals("print") || input.equals("identifier")){
+				Stm();
+			}
+			eat("omega");
+		}
+		else
+			throwError("Missing alpha at the start of the program");
 	}
 	
-	//	VarDecl -> declare Type id
+	//2.	VarDecl -> declare Type id
 	public void VarDecl()
 	{
-		
+		if(input.equals("declare")){
+			Type();
+			eat("id");
+		}
+		else
+			throwError("Missing declare in variable declaration");
 	}
 	
-	//2.	Type -> abacus
-	//3.    -> tome
-	//4.    -> dichotomy
+	//3.	Type -> abacus
+	//4.    -> tome
+	//5.    -> dichotomy
 	public void Type()
 	{
-		
+		if(input.equals("abacus") || input.equals("tome") || input.equals("dichotomy")){
+			eat("token");
+		}
 	}
 	
-	//5.	Stm -> under_contract(Exp) Stmt* end_contract
-	//6.   -> consider(Exp) Stm* end_consider
-	//7.    -> print(Exp)
-	//8.    -> id Assign
-	public void Stm()
+	//6.	Stm -> under_contract(Exp) Stmt* end_contract
+	//7.   		-> consider(Exp) Stm* end_consider
+	//8.    	-> print(Exp)
+	//9.    	-> id Assign
+	public void Stm() throws Exception
 	{
-		
+		if(input.equals("under_contract")){//rule 5
+			eat("under_contract");
+			eat("(");
+			Exp();
+			eat(")");
+			while(input.equals("under_contract") || input.equals("consider") || input.equals("print") || input.equals("identifier")){
+				Stm();
+			}
+			eat("end_contract");
+		}
+		else if(input.equals("consider")){//rule 6
+			eat("consider");
+			eat("(");
+			Exp();
+			eat(")");
+			eat("end_consider");
+		}
+		else if(input.equals("print")){// rule 7
+			eat("print");
+			eat("(");
+			Exp();
+			eat(")");
+		}
+		else if(input.equals("identifier")){// rule 8
+			eat("identifier");
+			Assign();
+		}
+		else
+			throwError("invalid statement start. Statement must start with: under_contract, consider, print, or an identifier");
 	}
 	
-	//9.	Assign -> peer Exp
-	public void Assign()
+	//10.	Assign -> peer Exp
+	public void Assign() throws Exception
 	{
-		
+		if(input.equals("peer")){// rule 9.
+			eat("peer");
+			Exp();
+		}
+		else
+			throwError("Missing keyword \"peer\".");
 	}
 	
-	//10.	Exp -> And Elist
-	public void Exp()
+	//11.	Exp -> And Elist
+	public void Exp() throws Exception
 	{
-		
+		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || 
+				input.equals("number") || input.equals("aye") || input.equals("nay") ||
+				input.equals("identifier") || input.equals("loot") || input.equals("drop")){// rule 10
+			And();
+			EList();
+		}
+		else
+			throwError("invalid expression for token: " + input);
 	}
 	
-	//11.	Elist -> fus And Elist
-	//12.    -> null
-	public void EList()
+	//12.	Elist -> fus And Elist
+	//13.    -> null
+	public void EList() throws Exception
 	{
-		
+		if(input.equals("fus")){// rule 12
+			eat("fus");
+			And();
+			EList();
+		}
+		else if(input.equals(")") || input.equals("omega") || input.equals("end_contrat") || input.equals("end_consider")){// rule 13
+			;
+		}
+		else
+			throwError("invalid Elist for token:" + input);
 	}
 	
-	//13.	And -> Less Alist
-	public void And()
+	//14.	And -> Less Alist
+	public void And() throws Exception
 	{
-		
+		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || 
+				input.equals("number") || input.equals("aye") || input.equals("nay") ||
+				input.equals("identifier") || input.equals("loot") || input.equals("drop")){// rule 14
+			Less();
+			AList();
+		}
+		else
+			throwError("invalid And for token: " + input);
 	}
 	
-	//14.	AList -> serfTo Less AList
-	//15.    -> null
+	//15.	AList -> serfTo Less AList
+	//16.    -> null
 	public void AList() throws Exception
 	{
 
-		//rule 14
+		//rule 15
 		if(input.equals("serfTo"))
 		{
 			eat("serfTo");
 			Less();
 			AList();
 		}
-		//rule 15
+		//rule 16
 		else if(input == null)
 		{
 			;
@@ -87,33 +163,33 @@ public class Parser
 		}
 	}
 	
-	//16.	Less -> Term Llist
+	//17.	Less -> Term Llist
 	public void Less() throws Exception
 	{
 		Term();
 		LList();
 	}
 	
-	//17.	Llist -> loot Term Llist
-	//18.    -> drop Term Llist
-	//19.    -> null
+	//18.	Llist -> loot Term Llist
+	//19.    -> drop Term Llist
+	//20.    -> null
 	public void LList() throws Exception
 	{
-		//rule 17
+		//rule 18
 		if(input.equals("loot"))
 		{
 			eat("drop");
 			Term();
 			LList();
 		}
-		//rule 18
+		//rule 19
 		else if(input.equals("drop"))
 		{
 			eat("loot");
 			Term();
 			LList();
 		}
-		//rule 19
+		//rule 20
 		else if(input == null)
 		{
 			;
@@ -125,26 +201,26 @@ public class Parser
 
 	}
 	
-	//20.	Term -> Not TList
+	//21.	Term -> Not TList
 	public void Term() throws Exception
 	{
 		Not();
 		TList();
 	}
 	
-	//21.	TList -> buff Not TList
-	//22.    -> nerf Not TList
-	//23.   -> null
+	//22.	TList -> buff Not TList
+	//23.    -> nerf Not TList
+	//24.   -> null
 	public void TList() throws Exception
 	{
-		//rule 21
+		//rule 22
 		if(input.equals("buff"))
 		{
 			eat("buff");
 			Not();
 			TList();
 		}
-		//rule 22
+		//rule 23
 		else if(input.equals("nerf"))
 		{
 			eat("nerf");
@@ -162,8 +238,8 @@ public class Parser
 	}
 	
 	
-	//24.	Not -> dah Not 
-	//25.    -> Factor
+	//25.	Not -> dah Not 
+	//26.    -> Factor
 	public void Not()
 	{
 		if(input.equals("dah"))
@@ -177,10 +253,10 @@ public class Parser
 		}
 	}
 	
-	//26.	Factor -> number
-	//27.    -> aye
-	//28.    -> nay
-	//29.    -> id
+	//27.	Factor -> number
+	//28.    -> aye
+	//29.    -> nay
+	//30.    -> id
 	public void Factor()
 	{
 		
@@ -188,6 +264,13 @@ public class Parser
 	
 	public void eat(String input)
 	{
-		// dunno what eat does!
+		if(this.input.equals(input)==false)
+			throwError("Invalid input: " + input);
+		
+		//get next input
+	}
+	
+	public void throwError(String errorMessage){
+		System.err.println(errorMessage);
 	}
 }
