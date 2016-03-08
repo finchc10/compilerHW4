@@ -231,35 +231,36 @@ public class Parser
 	{
 
 		//rule 15
-		if(input.equals("serfTo"))
+		if(peekNextToken().equals("TLessthan"))
 		{
 			eat(input);
 			Less();
 			AList();
 		}
 		//rule 16
-		else if(input == null || input.equals("fus") || input.equals(")") || input.equals("omega") || input.equals("end_contract") || input.equals("end_consider"))
+		else if(peekNextToken().equals("TAnd") || peekNextToken().equals("Lparen") || peekNextToken().equals("TOmega") ||
+				peekNextToken().equals("TWend") || peekNextToken().equals("TFi"))
 		{
 			eat(input);
 		}
 		else
 		{
-			throw new Exception("Syntax error");
+			throw new Exception("Invalid token for " + peekNextToken());
 		}
 	}
 	
 	//17.	Less -> Term LList
 	public void Less() throws Exception
 	{
-		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || token instanceof TNumber ||
-				input.equals("aye") || input.equals("nay") || token instanceof TIdentifier || input.equals("loot") || input.equals("drop"))
+		if(peekNextToken().equals("TMultiply") || peekNextToken().equals("TDivide") || peekNextToken().equals("TNot") || peekNextToken().equals("TNumber") ||
+				peekNextToken().equals("TTrue") || peekNextToken().equals("TFalse") || peekNextToken().equals("TIdentifier") || peekNextToken().equals("TAdd") || peekNextToken().equals("TMinus"))
 		{
 			Term();
 			LList();
 		}
 		else
 		{
-			throw new Exception("Syntax error");
+			throw new Exception("Invalid token for " + peekNextToken());
 		}
 	}
 	
@@ -269,28 +270,28 @@ public class Parser
 	public void LList() throws Exception
 	{
 		//rule 18
-		if(input.equals("loot"))
+		if(peekNextToken().equals("TAdd"))
 		{
 			eat(input);
 			Term();
 			LList();
 		}
 		//rule 19
-		else if(input.equals("drop"))
+		else if(peekNextToken().equals("TMinus"))
 		{
 			eat(input);
 			Term();
 			LList();
 		}
 		//rule 20
-		else if(input == null || input.equals("serfTo") || input.equals("fus") || input.equals(")") || input.equals("omega") || input.equals("end_contract") ||
-				input.equals("end_consider"))
+		else if(peekNextToken().equals("TLessthan") || peekNextToken().equals("TAdd") || peekNextToken().equals("TRparen") || peekNextToken().equals("TOmega") || peekNextToken().equals("TWend") ||
+				peekNextToken().equals("TFi"))
 		{
 			eat(input);
 		}
 		else
 		{
-			throw new Exception("Syntax error");
+			throw new Exception("Invalid token for " + peekNextToken());
 		}
 
 	}
@@ -298,15 +299,15 @@ public class Parser
 	//21.	Term -> Not TList
 	public void Term() throws Exception
 	{
-		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || token instanceof TNumber || input.equals("aye") || input.equals("nay") ||
-				token instanceof TIdentifier)
+		if(peekNextToken().equals("TMultiply") || peekNextToken().equals("TDivide") || peekNextToken().equals("TNot") || peekNextToken().equals("TNumber") || peekNextToken().equals("TTrue") || peekNextToken().equals("TFalse") ||
+				peekNextToken().equals("TIdentifier"))
 		{
 			Not();
 			TList();
 		}
 		else
 		{
-			throw new Exception("Syntax error");
+			throw new Exception("Invalid token for " + peekNextToken());
 		}
 	}
 	
@@ -316,21 +317,21 @@ public class Parser
 	public void TList() throws Exception
 	{
 		//rule 22 && rule 23
-		if(input.equals("buff") || input.equals("nerf"))
+		if(peekNextToken().equals("TMultiply") || peekNextToken().equals("TDivide"))
 		{
 			eat(input);
 			Not();
 			TList();
 		}
 		//rule 24
-		else if(input == null || input.equals("loot") || input.equals("drop") || input.equals("serfTo") || input.equals("fus") || input.equals(")") ||
-				input.equals("omega") || input.equals("end_contract") || input.equals("end_consider"))
+		else if(peekNextToken().equals("TAdd") || peekNextToken().equals("TMinus") || peekNextToken().equals("TLessthan") || peekNextToken().equals("TAdd") || peekNextToken().equals("TRparen") ||
+				peekNextToken().equals("TOmega") || peekNextToken().equals("TWend") || peekNextToken().equals("TFi"))
 		{
 			eat(input);
 		}
 		else
 		{
-			throw new Exception("Syntax error");
+			throw new Exception("Invalid token for " + peekNextToken());
 		}
 	}
 	
@@ -340,19 +341,19 @@ public class Parser
 	public void Not() throws Exception
 	{
 		//rule 25
-		if(input.equals("dah"))
+		if(peekNextToken().equals("TNot"))
 		{
 			eat(input);
 			Not();
 		}
 		//rule 26 {number, ‘aye’, ‘nay’, identifer}
-		else if(token instanceof TNumber || input.equals("aye") || input.equals("nay") || token instanceof TIdentifier)
+		else if(peekNextToken().equals("TNumber") || peekNextToken().equals("TTrue") || peekNextToken().equals("TFalse") || peekNextToken().equals("TIdentifier"))
 		{
 			Factor();
 		}
 		else
 		{
-			throw new Exception("Syntax error");
+			throw new Exception("Invalid token for " + peekNextToken());
 		}
 	}
 	
@@ -362,13 +363,13 @@ public class Parser
 	//30.    -> id
 	public void Factor() throws Exception
 	{
-		if(input.equals("aye") || input.equals("nay") || token instanceof TIdentifier || token instanceof TNumber)
+		if(peekNextToken().equals("TTrue") || peekNextToken().equals("TFalse") || peekNextToken().equals("TIdentifier") || peekNextToken().equals("TNumber"))
 		{
 			eat(input);
 		}
 		else
 		{
-			throw new Exception("Syntax error");
+			throw new Exception("Invalid token for " + peekNextToken());
 		}
 	}
 	
