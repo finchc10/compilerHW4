@@ -1,6 +1,6 @@
-package lexing;
-import lexing.lexer.*;
-import lexing.node.*;
+package compilerHW4;
+import compilerHW4.lexer.*;
+import compilerHW4.node.*;
 import java.io.*;
 
 class Lexing
