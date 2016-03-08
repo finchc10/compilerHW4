@@ -1,5 +1,7 @@
 package compilerHW4;
 
+import compilerHW4.node.*;
+
 /**
  * @author Cory Finch
  * @author John Gaffney
@@ -10,6 +12,7 @@ package compilerHW4;
 
 public class Parser
 {
+	Token  token;
 	String input = "";
 	
 	//1.	Program -> alpha VarDecl* Stm* omega
@@ -166,8 +169,8 @@ public class Parser
 	//17.	Less -> Term LList
 	public void Less() throws Exception
 	{
-		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || input.equals(TokenType.NUMBER) ||
-				input.equals("aye") || input.equals("nay") || input.equals(TokenType.VAR) || input.equals("loot") || input.equals("drop"))
+		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || token instanceof TNumber ||
+				input.equals("aye") || input.equals("nay") || token instanceof TIdentifier || input.equals("loot") || input.equals("drop"))
 		{
 			Term();
 			LList();
@@ -210,11 +213,11 @@ public class Parser
 
 	}
 	
-	//21.	Term -> Not TList {‘buff’,’nerf’,’dah’,number,’aye’,nay’,identifier}
+	//21.	Term -> Not TList
 	public void Term() throws Exception
 	{
-		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || input.equals(TokenType.NUMBER) || input.equal("aye") || input.equals("nay") ||
-				input.equals(TokenType.IDENT))
+		if(input.equals("buff") || input.equals("nerf") || input.equals("dah") || token instanceof TNumber || input.equals("aye") || input.equals("nay") ||
+				token instanceof TIdentifier)
 		{
 			Not();
 			TList();
@@ -261,7 +264,7 @@ public class Parser
 			Not();
 		}
 		//rule 26 {number, ‘aye’, ‘nay’, identifer}
-		else if(input.equals(TokenType.NUMBER) || input.equals("aye") || input.equals("nay") || input.equals(TokenType.ID))
+		else if(token instanceof TNumber || input.equals("aye") || input.equals("nay") || token instanceof TIdentifier)
 		{
 			Factor();
 		}
@@ -275,9 +278,9 @@ public class Parser
 	//28.    -> aye
 	//29.    -> nay
 	//30.    -> id
-	public void Factor()
+	public void Factor() throws Exception
 	{
-		if(input.equals("aye") || input.equals("nay") || input.equals(TokenType.ID) || input.equals(TokenType.NUMBER)
+		if(input.equals("aye") || input.equals("nay") || token instanceof TIdentifier || token instanceof TNumber)
 		{
 			eat(input);
 		}
