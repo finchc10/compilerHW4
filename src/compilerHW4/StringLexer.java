@@ -51,6 +51,11 @@ public class StringLexer {
 		}
 	}
 	
+	/**
+	 * Returns the list of non-white space tokens that
+	 * were parsed from the given string
+	 * @return
+	 */
 	public List<Token> getTokens(){
 		return tokens;
 	}
