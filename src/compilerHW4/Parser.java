@@ -13,8 +13,6 @@ import compilerHW4.node.*;
 
 public class Parser
 {
-	Token  token;
-	String input = "";
 	private StringLexer lexer;
 	private List<Token> tokens;
 	
@@ -148,7 +146,7 @@ public class Parser
 			}
 			eat("TWend");
 		}
-		else if(input.equals("TIf")){//rule 6
+		else if(peekNextToken().equals("TIf")){//rule 6
 			eat("TIf");
 			eat("TLparen");
 			Exp();
@@ -233,7 +231,7 @@ public class Parser
 		//rule 15
 		if(peekNextToken().equals("TLessthan"))
 		{
-			eat(input);
+			eat(peekNextToken());
 			Less();
 			AList();
 		}
@@ -241,7 +239,7 @@ public class Parser
 		else if(peekNextToken().equals("TAnd") || peekNextToken().equals("Lparen") || peekNextToken().equals("TOmega") ||
 				peekNextToken().equals("TWend") || peekNextToken().equals("TFi"))
 		{
-			eat(input);
+			eat(peekNextToken());
 		}
 		else
 		{
@@ -272,14 +270,14 @@ public class Parser
 		//rule 18
 		if(peekNextToken().equals("TAdd"))
 		{
-			eat(input);
+			eat(peekNextToken());
 			Term();
 			LList();
 		}
 		//rule 19
 		else if(peekNextToken().equals("TMinus"))
 		{
-			eat(input);
+			eat(peekNextToken());
 			Term();
 			LList();
 		}
@@ -287,7 +285,7 @@ public class Parser
 		else if(peekNextToken().equals("TLessthan") || peekNextToken().equals("TAdd") || peekNextToken().equals("TRparen") || peekNextToken().equals("TOmega") || peekNextToken().equals("TWend") ||
 				peekNextToken().equals("TFi"))
 		{
-			eat(input);
+			eat(peekNextToken());
 		}
 		else
 		{
@@ -319,7 +317,7 @@ public class Parser
 		//rule 22 && rule 23
 		if(peekNextToken().equals("TMultiply") || peekNextToken().equals("TDivide"))
 		{
-			eat(input);
+			eat(peekNextToken());
 			Not();
 			TList();
 		}
@@ -327,7 +325,7 @@ public class Parser
 		else if(peekNextToken().equals("TAdd") || peekNextToken().equals("TMinus") || peekNextToken().equals("TLessthan") || peekNextToken().equals("TAdd") || peekNextToken().equals("TRparen") ||
 				peekNextToken().equals("TOmega") || peekNextToken().equals("TWend") || peekNextToken().equals("TFi"))
 		{
-			eat(input);
+			eat(peekNextToken());
 		}
 		else
 		{
@@ -343,7 +341,7 @@ public class Parser
 		//rule 25
 		if(peekNextToken().equals("TNot"))
 		{
-			eat(input);
+			eat(peekNextToken());
 			Not();
 		}
 		//rule 26 {number, ‘aye’, ‘nay’, identifer}
@@ -365,7 +363,7 @@ public class Parser
 	{
 		if(peekNextToken().equals("TTrue") || peekNextToken().equals("TFalse") || peekNextToken().equals("TIdentifier") || peekNextToken().equals("TNumber"))
 		{
-			eat(input);
+			eat(peekNextToken());
 		}
 		else
 		{
