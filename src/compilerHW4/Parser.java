@@ -24,10 +24,10 @@ public class Parser
 {
 	Token  token;
 	String input = "";
-	private static StringLexer lexer;
-	private static List<Token> tokens;
+	private StringLexer lexer;
+	private List<Token> tokens;
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		StringBuilder sb;
 		sb = new StringBuilder();
 		sb.append("alpha						");
@@ -43,33 +43,52 @@ public class Parser
 		sb.append("                             ");
 		sb.append("omega						");
 		
-		lexer = new StringLexer(sb.toString());
-		tokens = lexer.getTokens();
+		Parser parser = new Parser(sb.toString());
+		parser.Program();
 	}
+	
+	/**
+	 * Constructor for the parsing class.
+	 * Takes the source code as a string and
+	 * attempts to parse it. 
+	 * 
+	 * Checks for any syntax errors.
+	 * @param sourceCode
+	 */
+	public Parser(String sourceCode){
+		lexer = new StringLexer(sourceCode);
+		tokens = lexer.getTokens();
+//		for(Token tok: tokens){
+//			System.out.println(tok + ": " + tok.getClass().getSimpleName());
+//		}
+	}
+	
+	
 	
 	//1.	Program -> alpha VarDecl* Stm* omega
 	public void Program() throws Exception
 	{
-		if(input.equals("alpha")){
-			eat("alpha");
-			while(input.equals("abacus") || input.equals("tome") || input.equals("dichotomy")){
+		if(peekNextToken().equals("TBegin")){
+			eat("TBegin");
+			while(peekNextToken().equals("TDeclare")){
 				VarDecl();
 			}
-			while(input.equals("under_contract") || input.equals("consider") || input.equals("print") || input.equals("identifier")){
+			while(peekNextToken().equals("TWhile") || peekNextToken().equals("TIf") || peekNextToken().equals("TPrint") || peekNextToken().equals("TIdentifer")){
 				Stm();
 			}
-			eat("omega");
+			eat("TEnd");
 		}
 		else
 			throwError("Missing alpha at the start of the program");
 	}
 	
 	//2.	VarDecl -> declare Type id
-	public void VarDecl()
+	public void VarDecl() throws Exception
 	{
-		if(input.equals("declare")){
+		if(peekNextToken().equals("TDeclare")){
+			eat("TDeclare");
 			Type();
-			eat("id");
+			eat("TIdentifier");
 		}
 		else
 			throwError("Missing declare in variable declaration");
@@ -78,11 +97,19 @@ public class Parser
 	//3.	Type -> abacus
 	//4.    -> tome
 	//5.    -> dichotomy
-	public void Type()
+	public void Type() throws Exception
 	{
-		if(input.equals("abacus") || input.equals("tome") || input.equals("dichotomy")){
-			eat("token");
+		if(peekNextToken().equals("TInt")){//rule 3
+			eat("TInt");
 		}
+		else if(peekNextToken().equals("TString")){
+			eat("TString");
+		}
+		else if(peekNextToken().equals("TBoolean")){
+			eat("TBoolean");
+		}
+		else
+			throwError("Type():: invalid type!");
 	}
 	
 	//6.	Stm -> under_contract(Exp) Stmt* end_contract
@@ -322,15 +349,41 @@ public class Parser
 		}
 	}
 	
-	public void eat(String input)
+	/**
+	 * Eats the next token in the token list and
+	 * throws an error if it an unexpected token
+	 * is eaten.
+	 * @param input
+	 * @throws Exception 
+	 */
+	public void eat(String input) throws Exception
 	{
-		if(this.input.equals(input)==false)
+		if(peekNextToken().equals(input)==false)
 			throwError("Invalid input: " + input);
 		
 		//get next input
+		if(!tokens.isEmpty())
+			tokens.remove(0);
+		else
+			throwError("eat():: No more tokens!");
+		
 	}
 	
-	public void throwError(String errorMessage){
-		System.err.println(errorMessage);
+	/**
+	 * Returns the token type as a String of the
+	 * next token in the input.
+	 * @return
+	 * @throws Exception
+	 */
+	public String peekNextToken() throws Exception{
+		if(!tokens.isEmpty())
+			return tokens.get(0).getClass().getSimpleName();
+		else
+			throwError("peekNextToken():: No more tokens!");
+		return null;
+	}
+	
+	public void throwError(String errorMessage) throws Exception{
+		throw new Exception(errorMessage);
 	}
 }
