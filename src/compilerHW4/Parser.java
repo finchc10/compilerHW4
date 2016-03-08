@@ -183,7 +183,18 @@ public class Parser
 	//29.    -> id
 	public void Factor()
 	{
-		
+		if(input.equals("aye") || input.equals("nay"))
+		{
+			eat(input);
+		}
+		else if()
+		{
+			
+		}
+		else
+		{
+			throw new Exception("Syntax error");
+		}
 	}
 	
 	public void eat(String input)
