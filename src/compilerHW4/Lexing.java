@@ -26,18 +26,10 @@ class Lexing
 		   System.out.print ("keyword ");
 		if (token instanceof TWend )
 		   System.out.print ("keyword ");
-		if (token instanceof TArithOp)
-		   System.out.print ("Arith op ");
-		if (token instanceof TRelOp)
-		   System.out.print ("Relational op ");
 		if (token instanceof TAssign)
 		   System.out.print ("Assignment  ");
 		if (token instanceof TSpace )
 		   System.out.print ("white space ");
-		if (token instanceof TLogicOp )
-		   System.out.print ("Logical op ");
-		if (token instanceof TType )
-		   System.out.print ("Type ");
 		if (token instanceof TIdentifier)
 		   System.out.print ("Identifier  ");
 		if (token instanceof TDecrement)
