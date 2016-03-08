@@ -1,5 +1,15 @@
 package compilerHW4;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PushbackReader;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+import compilerHW4.lexer.Lexer;
 import compilerHW4.node.*;
 
 /**
@@ -14,6 +24,28 @@ public class Parser
 {
 	Token  token;
 	String input = "";
+	private static StringLexer lexer;
+	private static List<Token> tokens;
+	
+	public static void main(String[] args){
+		StringBuilder sb;
+		sb = new StringBuilder();
+		sb.append("alpha						");
+		sb.append("	declare abacus x			");
+		sb.append("								");
+		sb.append("	under_contract( x < 10 ) 	");
+		sb.append("		x peer x loot 1			");
+		sb.append("		print(x)				");
+		sb.append("								");
+		sb.append(" end_contract 				");
+		sb.append("                             ");
+		sb.append("                             ");
+		sb.append("                             ");
+		sb.append("omega						");
+		
+		lexer = new StringLexer(sb.toString());
+		tokens = lexer.getTokens();
+	}
 	
 	//1.	Program -> alpha VarDecl* Stm* omega
 	public void Program() throws Exception
